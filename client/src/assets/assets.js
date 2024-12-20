@@ -24,7 +24,7 @@ import dbbl from "./dbbl.png";
 import visa from "./visa.png";
 import mastercard from "./mastercard.png";
 import cod from "./cod.png";
-import reloop from "./reloop.webp";
+import reloop from "./logo.png";
 import whatsapp from "./whatsapp.gif";
 import fb from "./fb.png";
 import insta from "./insta.png";
