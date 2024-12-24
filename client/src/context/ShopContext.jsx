@@ -14,6 +14,7 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [orderData, setOrderData] = useState([]); // New state for orders
+  const [buyNowProduct, setBuyNowProduct] = useState(null);
   const navigate = useNavigate();
   const [token, setToken] = useState("");
 
@@ -48,6 +49,30 @@ const ShopContextProvider = (props) => {
         console.log(error);
         toast.error(error.message);
       }
+    }
+  };
+
+  // buy now button
+  const buyNow = (itemId, size) => {
+    if (!size) {
+      toast.error("Please select a size");
+      return;
+    }
+
+    const selectedProduct = products.find((product) => product._id === itemId);
+
+    if (selectedProduct) {
+      const buyNowData = {
+        ...selectedProduct,
+        size,
+        quantity: 1, // Default quantity for "Buy Now"
+      };
+
+      // Set the selected product in the context
+      setBuyNowProduct(buyNowData);
+
+      // Redirect to Place Order page
+      navigate("/placeorder");
     }
   };
 
@@ -193,6 +218,9 @@ const ShopContextProvider = (props) => {
     addToCart,
     updateQuantity,
     getCartAmount,
+    buyNowProduct,
+    setBuyNowProduct,
+    buyNow,
   };
 
   return (

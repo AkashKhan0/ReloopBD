@@ -16,8 +16,11 @@ const PlaceOrder = () => {
     getCartAmount,
     delivery_fee,
     products,
+    buyNowProduct,
+    setBuyNowProduct,
   } = useContext(ShopContext);
   const [method, setMethod] = useState("cod");
+  const [buttonState, setButtonState] = useState("default");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -37,18 +40,24 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setButtonState("loading"); // Set loading state
     try {
       let orderItems = [];
-      for (const items in cartItems) {
-        for (const item in cartItems[items]) {
-          if (cartItems[items][item] > 0) {
-            const itemInfo = structuredClone(
-              products.find((product) => product._id === items)
-            );
-            if (itemInfo) {
-              itemInfo.size = item;
-              itemInfo.quantity = cartItems[items][item];
-              orderItems.push(itemInfo);
+
+      if (buyNowProduct) {
+        orderItems.push(buyNowProduct);
+      } else {
+        for (const items in cartItems) {
+          for (const item in cartItems[items]) {
+            if (cartItems[items][item] > 0) {
+              const itemInfo = structuredClone(
+                products.find((product) => product._id === items)
+              );
+              if (itemInfo) {
+                itemInfo.size = item;
+                itemInfo.quantity = cartItems[items][item];
+                orderItems.push(itemInfo);
+              }
             }
           }
         }
@@ -57,7 +66,9 @@ const PlaceOrder = () => {
       let orderData = {
         address: formData,
         items: orderItems,
-        amount: getCartAmount() + delivery_fee,
+        amount: buyNowProduct
+          ? buyNowProduct.price * buyNowProduct.quantity + delivery_fee
+          : getCartAmount() + delivery_fee,
       };
 
       // api calls for cash on delivery method
@@ -70,9 +81,16 @@ const PlaceOrder = () => {
           );
           if (response.data.success) {
             setCartItems({});
-            navigate("/order");
+            setBuyNowProduct(null); // Clear the "Buy Now" product
+            setButtonState("success"); // Set success state
+            // Wait for 3 seconds and then redirect
+            setTimeout(() => {
+              setButtonState("default");
+              navigate("/collection");
+            }, 5000);
           } else {
             toast.error(response.data.message);
+            setButtonState("default"); // Reset state
           }
           break;
 
@@ -82,6 +100,7 @@ const PlaceOrder = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.message);
+      setButtonState("default"); // Reset state
     }
   };
   return (
@@ -253,9 +272,20 @@ const PlaceOrder = () => {
             <div className="w-full text-left my-8">
               <button
                 type="submit"
-                className="bg-black text-white px-16 py-3 text-sm uppercase rounded-md"
+                disabled={buttonState === "loading"} // Disable button during loading
+                className={`px-16 py-3 text-sm uppercase rounded-md transition-colors duration-300 ease-in-out ${
+                  buttonState === "default"
+                    ? "bg-black text-white"
+                    : buttonState === "loading"
+                    ? "bg-yellow-500 text-black"
+                    : "bg-green-500 text-white"
+                }`}
               >
-                place order
+                {buttonState === "default"
+                  ? "Place Order"
+                  : buttonState === "loading"
+                  ? "Please Wait..."
+                  : "Order Successful"}
               </button>
             </div>
           </div>

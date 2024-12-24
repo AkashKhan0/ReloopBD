@@ -7,7 +7,7 @@ import RelatedProduct from "../components/RelatedProduct";
 const Product = () => {
   const location = useLocation();
   const { productId } = useParams();
-  const { products, currency, addToCart } = useContext(ShopContext);
+  const { products, currency, addToCart, buyNow } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
@@ -92,19 +92,12 @@ const Product = () => {
               add to cart
             </button>
             {/* Buy now button */}
-            {/* <button
-              onClick={() => addToCart(productData._id, size)}
-              className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 uppercase rounded-xl ml-3"
+            <button
+              onClick={() => buyNow(productData._id, size)}
+              className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 uppercase rounded-xl ml-5"
             >
-              buy now
-            </button> */}
-            {/* Buy now button */}
-            {/* <hr className="mt-8 sm:w-4/5" />
-            <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
-              <p>100% Original products</p>
-              <p>Cash on delivery is available</p>
-              <p>Easy return and exchange policy within 7 days</p>
-            </div> */}
+              Buy Now
+            </button>
           </div>
         </div>
 
