@@ -20,7 +20,8 @@ const PlaceOrder = () => {
     setBuyNowProduct,
   } = useContext(ShopContext);
   const [method, setMethod] = useState("cod");
-  const [buttonState, setButtonState] = useState("default");
+  // const [buttonState, setButtonState] = useState("default");
+  const [buttonMessage, setButtonMessage] = useState("Place Order");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -40,7 +41,8 @@ const PlaceOrder = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    setButtonState("loading"); // Set loading state
+    // setButtonState("loading"); // Set loading state
+    setButtonMessage("Please Wait..."); // Set loading message
     try {
       let orderItems = [];
 
@@ -82,15 +84,17 @@ const PlaceOrder = () => {
           if (response.data.success) {
             setCartItems({});
             setBuyNowProduct(null); // Clear the "Buy Now" product
-            setButtonState("success"); // Set success state
+            // setButtonState("success"); // Set success state
+            setButtonMessage("Order Successful!"); // Show success message
             // Wait for 3 seconds and then redirect
             setTimeout(() => {
-              setButtonState("default");
+              // setButtonState("default");
+              setButtonMessage("Place Order");
               navigate("/collection");
             }, 5000);
           } else {
-            toast.error(response.data.message);
-            setButtonState("default"); // Reset state
+            // setButtonState("default"); // Reset state
+            setButtonMessage(response.data.message || "Something went wrong!");
           }
           break;
 
@@ -99,8 +103,9 @@ const PlaceOrder = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
-      setButtonState("default"); // Reset state
+      // toast.error(error.message);
+      // setButtonState("default"); // Reset state
+      setButtonMessage("Something went wrong!");
     }
   };
   return (
@@ -272,20 +277,9 @@ const PlaceOrder = () => {
             <div className="w-full text-left my-8">
               <button
                 type="submit"
-                disabled={buttonState === "loading"} // Disable button during loading
-                className={`px-16 py-3 text-sm uppercase rounded-md transition-colors duration-300 ease-in-out ${
-                  buttonState === "default"
-                    ? "bg-black text-white"
-                    : buttonState === "loading"
-                    ? "bg-yellow-500 text-black"
-                    : "bg-green-500 text-white"
-                }`}
+                className={`px-16 py-3 text-sm uppercase rounded-md transition-colors duration-300 ease-in-out bg-slate-900 text-slate-100`}
               >
-                {buttonState === "default"
-                  ? "Place Order"
-                  : buttonState === "loading"
-                  ? "Please Wait..."
-                  : "Order Successful"}
+                {buttonMessage}
               </button>
             </div>
           </div>
