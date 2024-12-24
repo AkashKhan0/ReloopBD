@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ShopContext } from "../context/ShopContext";
 import { IoPersonCircle } from "react-icons/io5";
+import { IoMdMail } from "react-icons/io";
 
 const Profile = () => {
   const { backendUrl, token, currency, orderData } = useContext(ShopContext);
@@ -32,14 +33,14 @@ const Profile = () => {
 
   return (
     <div className="p-6 min-h-screen">
-      <div className="flex gap-2 items-center">
-        <IoPersonCircle className="userIcon" />
-        <h2 className="text-3xl font-semibold">Profile</h2>
-      </div>
       {userData && (
-        <div className="my-4 text-xl font-medium">
-          <p>Name: {userData.name}</p>
-          <p>Email: {userData.email}</p>
+        <div className="my-4 text-lg font-normal text-slate-800 flex flex-col w-full items-center justify-center">
+          <IoPersonCircle className="text-8xl" />
+          <h2 className="text-xl font-semibold w-fit">{userData.name}</h2>
+          {/* <p>Name: {userData.name}</p> */}
+          <p className="flex items-center gap-2 w-fit">
+            <IoMdMail /> {userData.email}
+          </p>
         </div>
       )}
       <h3 className="text-xl font-semibold mt-6">Purchased Products</h3>

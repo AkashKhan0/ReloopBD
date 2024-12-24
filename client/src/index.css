@@ -74,3 +74,70 @@ a.active hr {
 .userIcon {
   font-size: 34px;
 }
+
+/* live chat */
+/* Chat Container */
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+/* Chat Button */
+.chat-button {
+  background-color: #232f3e;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Popup Box */
+.tspan {
+  color: #cfcfcf;
+}
+.popup-box {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+  background-color: #232f3e;
+  width: 300px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Popup Title */
+.popup-title {
+  margin: 0 0 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Chat Options */
+.chat-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* Chat Link */
+.chat-link {
+  text-decoration: none;
+  color: #fff;
+  background-color: #4caf4f7c;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.chat-link:hover {
+  background-color: #005bb52c;
+}

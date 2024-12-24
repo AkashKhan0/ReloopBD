@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Profile";
 import Career from "./pages/Career";
+import Livechat from "./pages/Livechat";
 
 export const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -30,6 +31,7 @@ const App = () => {
   return (
     <>
       <div className="relative">
+        <Livechat />
         <ToastContainer />
         <Navbar />
         <Searchbar />
